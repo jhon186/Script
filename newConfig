@@ -1,0 +1,319 @@
+; 20220404_073723
+
+; 毒奶博主
+
+# Sample Quantumult Configuration
+#
+# Line started with “;” or “#” or “//“ shall be comments.
+# 以 “;” 或 “#” 或 “//“ 开头的行为注释行。
+#
+# SS-URI scheme can be found at https://shadowsocks.org/en/spec/SIP002-URI-Scheme.html
+#
+# Quantumult uses HEAD method send HTTP request to the server_check_url to test the proxy’s status, the results should be two latencies, the first one is TCP handshake to the proxy server, the second one is the total time that Quantumult successfully received the HTTP response from the server_check_url. The lightning icon means that the TCP fast open is successful. If the server in section [server_local] or section [server_remote] has its own server_check_url, its own server_check_url will be used instead of the server_check_url in section [general].
+#
+# Quantumult 使用 HTTP HEAD 方法对测试网址（server_check_url）进行网页响应性测试（测试结果为通过该节点访问此网页获得响应所需要的时间），来确认节点的可用性。
+# Quantumult 界面中的延迟测试方式均为网页响应性测试，显示的最终延迟均为通过对应节点访问测试网页获得响应所需要时间。
+#
+# The dns_exclusion_list contains the domains that disabled the placeholder IP(240.*), domains that are not in the dns_exclusion_list all have placeholder IP enabled and have turned on the resolve-on-remote setting.
+#
+# The udp_whitelist contains the destination UDP port, empty means all the ports are in udp_whitelist. UDP packtes(through Quantumult tunnel interface) with destination ports that are not in the udp_whitelist will be dropped. This setting has nothing to do with the policy and has nothing to do with the proxy(server) port either.
+#
+# The traffic to excluded_routes will not be handled by Quantumult. It is better to reboot your device after modification.
+#
+
+[general]
+geo_location_checker=http://ip-api.com/json/?lang=zh-CN, https://raw.githubusercontent.com/limbopro/QuantumultX/master/Scripts/IP_API.js
+#添加肖恩的IP检测API-点击节点时查看详情，可以看到该节点所属地区及国标/区标
+
+;server_check_url=http://www.google.com/generate_204
+;geo_location_checker=http://www.example.com/json/, https://www.example.com/script.js
+;dns_exclusion_list=*.qq.com, qq.com, *.cmpassport.com
+;ssid_suspended_list=LINK_22E174, LINK_22E175
+;udp_whitelist=53, 123, 1900, 80-443
+;excluded_routes= 192.168.0.0/16, 172.16.0.0/12, 100.64.0.0/10, 10.0.0.0/8
+;icmp_auto_reply=true
+
+#
+# The DNS servers fetched from current network will always be used for better performance.
+# The result of query will only be used for evaluating filter or connecting through direct policy, when connecting through server the result will not be used and Quantumult will never know the destination IP of related domain.
+# Specially directly set 127.0.0.1 for a domain is not allowed in here. if you want some domain(eg: example.com) to be 127.0.0.1, just add “host, example.com, reject” to the “filter_local” section. The reject action will return DNS response with 127.0.0.1 to the query.
+#
+
+[dns]
+server=223.5.5.5
+server=114.114.114.114
+server=119.29.29.29
+server=8.8.8.8
+;server=8.8.4.4:53
+;server=/example0.com/system
+;server=/example1.com/8.8.4.4
+;server=/*.example2.com/223.5.5.5
+;server=/example4.com/[2001:4860:4860::8888]:53
+;address=/example5.com/192.168.16.18
+;address=/example6.com/[2001:8d3:8d3:8d3:8d3:8d3:8d3:8d3]
+
+
+#
+# static policy points to the server in candidates you manually selected.
+# available policy points to the first available server in candidates based on server_check_url(concurrent url latency test will be immediately launched when the policy has been triggered and the policy result is unavailable).
+# round-robin policy points to the next server in candidates for next connection.
+# ssid policy points to the server depending on the network environment.
+#
+[policy]
+static=追风岛, 🇭🇰 标准|香港05解锁|Z215, 🇭🇰 标准|香港06解锁|Z216, 🇯🇵 标准|日本01解锁|Z217, 🇯🇵 标准|日本02解锁|Z218, 🇯🇵 标准|日本03解锁|Z219, 🇯🇵 标准|日本04解锁|Z220, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Pig.png
+#static=Vall, 🇭🇰 香港 网飞#245|0.8|7|2%|94G|okme.xyz|80noTls, 🇭🇰 香港 网飞#245|0.8|7|2%|94G|okme.xyz, 🇭🇰 香港 网飞#238|1.9|7|7%|209G|okme.xyz|80noTls, 🇭🇰 香港 网飞#238|1.9|7|7%|209G|okme.xyz, 🇸🇬 新加坡 网飞#295|1.9|7|8%|216G|okme.xyz|80noTls, 🇸🇬 新加坡 网飞#295|1.9|7|8%|216G|okme.xyz, 🇭🇰 香港 网飞#45|0.9|7|9%|106G|okme.xyz|80noTls, 🇭🇰 香港 网飞#45|0.9|7|9%|106G|okme.xyz, 🇭🇰 香港 网飞#236|0.5|7|10%|60G|okme.xyz|80noTls, 🇭🇰 香港 网飞#236|0.5|7|10%|60G|okme.xyz, 🇭🇰 香港 网飞#107|0.9|7|12%|101G|okme.xyz|80noTls, 🇭🇰 香港 网飞#107|0.9|7|12%|101G|okme.xyz, 🇭🇰 香港 网飞#143|0.9|7|13%|104G|okme.xyz|80noTls, 🇭🇰 香港 网飞#143|0.9|7|13%|104G|okme.xyz, 🇸🇬 新加坡 网飞#304|1.9|7|16%|222G|okme.xyz|80noTls, 🇸🇬 新加坡 网飞#304|1.9|7|16%|222G|okme.xyz, 🇭🇰 香港 网飞#208|1.2|7|16%|213G|okme.xyz|80noTls, 🇭🇰 香港 网飞#208|1.2|7|16%|213G|okme.xyz, 🇭🇰 香港 网飞#216|1.1|7|21%|197G|okme.xyz|80noTls, 🇭🇰 香港 网飞#216|1.1|7|21%|197G|okme.xyz, 🇸🇬 新加坡 网飞#184|2|7|25%|230G|okme.xyz|80noTls, 🇸🇬 新加坡 网飞#184|2|7|25%|230G|okme.xyz, 🇭🇰 香港 网飞#140|1.6|7|30%|184G|okme.xyz|80noTls, 🇭🇰 香港 网飞#140|1.6|7|30%|184G|okme.xyz, 🇭🇰 香港 网飞#84|0.3|7|1%|37G|okme.xyz|80noTls, 🇭🇰 香港 网飞#84|0.3|7|1%|37G|okme.xyz, 🇸🇬 新加坡 网飞#305|0.9|7|4%|107G|okme.xyz|80noTls, 🇸🇬 新加坡 网飞#305|0.9|7|4%|107G|okme.xyz, 🇸🇬 新加坡 网飞#185|2.7|7|16%|153G|okme.xyz|80noTls, 🇸🇬 新加坡 网飞#185|2.7|7|16%|153G|okme.xyz, 🇭🇰 香港 网飞#94|0.5|7|9%|91G|okme.xyz|80noTls, 🇭🇰 香港 网飞#94|0.5|7|9%|91G|okme.xyz, 🇭🇰 香港 网飞#137|1.9|7|11%|217G|okme.xyz|80noTls, 🇭🇰 香港 网飞#137|1.9|7|11%|217G|okme.xyz, 🇯🇵 日本 #181|3.8|7|23%|218G|okme.xyz|80noTls, 🇯🇵 日本 #181|3.8|7|23%|218G|okme.xyz, 🇭🇰 香港 加速 网飞#48|0.7|7|12%|85G|okme.xyz|80noTls, 🇭🇰 香港 加速 网飞#48|0.7|7|12%|85G|okme.xyz, 🇭🇰 香港 网飞#70|1.9|7|12%|227G|okme.xyz|80noTls, 🇭🇰 香港 网飞#70|1.9|7|12%|227G|okme.xyz, 🇭🇰 香港 网飞#231|0.6|7|12%|70G|okme.xyz|80noTls, 🇭🇰 香港 网飞#231|0.6|7|12%|70G|okme.xyz, 🇭🇰 香港 网飞#244|1.3|7|14%|155G|okme.xyz|80noTls, 🇭🇰 香港 网飞#244|1.3|7|14%|155G|okme.xyz, 🇭🇰 香港 网飞#71|1.4|7|16%|166G|okme.xyz|80noTls, 🇭🇰 香港 网飞#71|1.4|7|16%|166G|okme.xyz, 🇭🇰 香港 网飞#124|1.4|7|16%|159G|okme.xyz|80noTls, 🇭🇰 香港 网飞#124|1.4|7|16%|159G|okme.xyz, 🇭🇰 香港 网飞#243|1.5|7|16%|172G|okme.xyz|80noTls, 🇭🇰 香港 网飞#243|1.5|7|16%|172G|okme.xyz, 🇭🇰 香港 网飞#111|1.9|7|17%|214G|okme.xyz|80noTls, 🇭🇰 香港 网飞#111|1.9|7|17%|214G|okme.xyz, 🇭🇰 香港 网飞#248|1.4|7|17%|159G|okme.xyz|80noTls, 🇭🇰 香港 网飞#248|1.4|7|17%|159G|okme.xyz, 🇭🇰 香港 网飞#234|2|7|23%|234G|okme.xyz|80noTls, 🇭🇰 香港 网飞#234|2|7|23%|234G|okme.xyz, 🇭🇰 香港 网飞#64|1.6|7|26%|190G|okme.xyz|80noTls, 🇭🇰 香港 网飞#64|1.6|7|26%|190G|okme.xyz, 🇸🇬 新加坡 网飞#166|1.9|7|28%|218G|okme.xyz|80noTls, 🇸🇬 新加坡 网飞#166|1.9|7|28%|218G|okme.xyz, 🇸🇬 新加坡 网飞#291|0.6|7|1%|68G|okme.xyz|80noTls, 🇸🇬 新加坡 网飞#291|0.6|7|1%|68G|okme.xyz, 🇭🇰 香港 网飞#136|0.5|7|5%|63G|okme.xyz|80noTls, 🇭🇰 香港 网飞#136|0.5|7|5%|63G|okme.xyz, 🇭🇰 香港 网飞#204|0.3|7|6%|35G|okme.xyz|80noTls, 🇭🇰 香港 网飞#204|0.3|7|6%|35G|okme.xyz, 🇸🇬 新加坡 网飞#172|0.7|7|7%|79G|okme.xyz|80noTls, 🇸🇬 新加坡 网飞#172|0.7|7|7%|79G|okme.xyz, 🇭🇰 香港 网飞#202|0.8|7|7%|89G|okme.xyz|80noTls, 🇭🇰 香港 网飞#202|0.8|7|7%|89G|okme.xyz, 🇭🇰 香港 网飞#242|1.3|7|13%|159G|okme.xyz|80noTls, 🇭🇰 香港 网飞#242|1.3|7|13%|159G|okme.xyz, 🇭🇰 香港 网飞#93|0.9|7|17%|158G|okme.xyz|80noTls, 🇭🇰 香港 网飞#93|0.9|7|17%|158G|okme.xyz, 🇭🇰 香港 网飞#134|1.5|7|19%|183G|okme.xyz|80noTls, 🇭🇰 香港 网飞#134|1.5|7|19%|183G|okme.xyz, 🇭🇰 香港 网飞#123|1.9|7|20%|220G|okme.xyz|80noTls, 🇭🇰 香港 网飞#123|1.9|7|20%|220G|okme.xyz, 🇸🇬 新加坡 网飞#179|1.9|7|15%|220G|okme.xyz|80noTls, 🇸🇬 新加坡 网飞#179|1.9|7|15%|220G|okme.xyz, 🇭🇰 香港 网飞#127|0.7|7|10%|85G|okme.xyz|80noTls, 🇭🇰 香港 网飞#127|0.7|7|10%|85G|okme.xyz, 🇯🇵 日本#375|0.7|7|29%|225G|okme.xyz|80noTls, 🇯🇵 日本#375|0.7|7|29%|225G|okme.xyz, 🇭🇰 香港 网飞#247|1.9|7|13%|216G|okme.xyz|80noTls, 🇭🇰 香港 网飞#247|1.9|7|13%|216G|okme.xyz, 🇭🇰 香港 网飞#128|1.9|7|21%|214G|okme.xyz|80noTls, 🇭🇰 香港 网飞#128|1.9|7|21%|214G|okme.xyz, 🏳️‍🌈 地区#编号|倍率|等级|在线|流量消耗|网站 节点命名规则#6|1|7|1%|0G|okme.xyz, 🏴‍☠️ 没有节点？请先购买套餐，然后才可以使用呦#7|9|7|1%|0G|okme.xyz, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Vimeo.png
+#static=光速云, 🇯🇵 as日本01 1倍 原生NF 电联入口, 🇯🇵 as日本02 1倍 电联入口, 🇯🇵 as日本03 1倍 电联入口, 🇯🇵 as日本04 1倍 电联入口, 🇯🇵 bgp日本01 1倍 BGP极速入口, 🇭🇰 bgp香港01 1倍 原生NF BGP极速入口, 🇭🇰 bgp香港02 1倍 BGP极速入口, 🇭🇰 cm香港01 1倍 原生NF 电移入口, 🇭🇰 cm香港02 1倍 原生NF 电移入口, 🇭🇰 cm香港03 1倍 电移入口, 🇭🇰 cm香港04 1倍 电移入口, 🏴‍☠️ gia俄国 1倍率 原生IP 联通优秀, 🇰🇷 gia韩国 2倍率 原生IP 三网优秀, 🇭🇰 IPLC 深港01 1倍 原生NF 三网入口, 🇭🇰 IPLC 深港02 1倍 原生NF 三网入口, 🇭🇰 IPLC 深港03 1倍 原生NF 三网入口, 🇭🇰 IPLC 深港04 1倍 原生NF 三网入口, 🇯🇵 日本c02 1倍 三网入口, 🇯🇵 日本d06 1倍 原生NF 电移入口, 🇯🇵 日本d07 1倍 三网入口, 🇯🇵 日本d31 1倍 三网入口, 🇯🇵 日本d32 1倍 三网入口, 🇨🇦 普通节点 加拿大01 电移入口, 🇨🇦 普通节点 加拿大02 gs1024.com, 🏴‍☠️ 普通节点 南亚01 gs1024.com 全中转光速云, 🏴‍☠️ 普通节点 南亚02 gs1024.com 全中转光速云, 🇺🇸 美国免税 1倍 电联入口, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Mouse.png
+#static=追风岛, 🏴‍☠️ 最新域名:58zfdao.com, 🇭🇰 LV1 香港 01 主力线路 NF, 🇭🇰 LV1 香港 02 主力线路 NF, 🇭🇰 LV1 香港 03 主力线路 NF, 🇭🇰 LV1 香港 04 NF, 🇭🇰 LV1 香港 05 NF, 🇭🇰 LV1 香港 06 NF, 🇨🇳 LV1 台湾 01 NF, 🇨🇳 LV1 台湾 02 NF, 🇨🇳 LV1 台湾 03 NF, 🇨🇳 LV1 台湾 04 NF, 🇯🇵 LV1 日本 01 NF, 🇯🇵 LV1 日本 02 NF, 🇯🇵 LV1 日本 03 NF, 🇯🇵 LV1 日本 04 NF, 🇸🇬 LV1 新加坡 01 NF, 🇸🇬 LV1 新加坡 02 NF, 🇸🇬 LV1 新加坡 03 NF, 🇸🇬 LV1 新加坡 04 NF, 🇺🇸 LV1 美国 01 NF, 🇺🇸 LV1 美国 02 NF, 🇺🇸 LV1 美国 03 NF, 🇺🇸 LV1 美国 04 NF, 🇰🇷 LV1 韩国 01 NF, 🇰🇷 LV1 韩国 02 NF, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Pig.png
+static=STC-V2Ray, [D1/V2Ray] 台湾 01, [D1/V2Ray] 台湾 02, [D1/V2Ray] 台湾 03, [D1/V2Ray] 台湾 04, [D1/V2Ray] 日本 01, [D1/V2Ray] 日本 02, [D1/V2Ray] 狮城 01, [D1/V2Ray] 狮城 02, [D1/V2Ray] 美国 01, [D1/V2Ray] 美国 02, [D1/V2Ray] 香港 01, [D1/V2Ray] 香港 02, [D1/V2Ray] 香港 03, [D1/V2Ray] 香港 04, [D1/V2Ray] 香港 05, [D1/V2Ray] 香港 06, [D1/V2Ray] 香港 07, [D1/V2Ray] 香港 08, [D1/V2Ray] 香港 09, [D1/V2Ray] 香港 10, [D1/V2Ray] 香港 11, [D1/V2Ray] 香港 12, img-url=https://raw.githubusercontent.com/limbopro/Zure/master/IconSet/Twitter.png
+#static=Vall, 🇭🇰 香港 网飞#140|1.4|7|5%|107G|okme.xyz|80noTls, 🇭🇰 香港 网飞#140|1.4|7|5%|107G|okme.xyz, 🇭🇰 香港 网飞#245|1.3|7|6%|101G|okme.xyz|80noTls, 🇭🇰 香港 网飞#245|1.3|7|6%|101G|okme.xyz, 🇸🇬 新加坡 网飞#304|1.3|7|7%|95G|okme.xyz|80noTls, 🇸🇬 新加坡 网飞#304|1.3|7|7%|95G|okme.xyz, 🇭🇰 香港 网飞#129|1.3|7|7%|96G|okme.xyz|80noTls, 🇭🇰 香港 网飞#129|1.3|7|7%|96G|okme.xyz, 🇭🇰 香港 网飞#238|1.3|7|7%|94G|okme.xyz|80noTls, 🇭🇰 香港 网飞#238|1.3|7|7%|94G|okme.xyz, 🇭🇰 香港 网飞#45|2.1|7|8%|156G|okme.xyz|80noTls, 🇭🇰 香港 网飞#45|2.1|7|8%|156G|okme.xyz, 🇭🇰 香港 网飞#107|1.7|7|8%|130G|okme.xyz|80noTls, 🇭🇰 香港 网飞#107|1.7|7|8%|130G|okme.xyz, 🇭🇰 香港 网飞#208|1.1|7|8%|125G|okme.xyz|80noTls, 🇭🇰 香港 网飞#208|1.1|7|8%|125G|okme.xyz, 🇸🇬 新加坡 网飞#295|1.4|7|9%|104G|okme.xyz|80noTls, 🇸🇬 新加坡 网飞#295|1.4|7|9%|104G|okme.xyz, 🇭🇰 香港 网飞#143|1.4|7|9%|108G|okme.xyz|80noTls, 🇭🇰 香港 网飞#143|1.4|7|9%|108G|okme.xyz, 🇭🇰 香港 网飞#216|1.2|7|10%|132G|okme.xyz|80noTls, 🇭🇰 香港 网飞#216|1.2|7|10%|132G|okme.xyz, 🇸🇬 新加坡 网飞#184|1.2|7|11%|90G|okme.xyz|80noTls, 🇸🇬 新加坡 网飞#184|1.2|7|11%|90G|okme.xyz, 🇭🇰 香港 网飞#236|1|7|11%|75G|okme.xyz|80noTls, 🇭🇰 香港 网飞#236|1|7|11%|75G|okme.xyz, 🇭🇰 香港 网飞#116|1.9|7|6%|140G|okme.xyz|80noTls, 🇭🇰 香港 网飞#116|1.9|7|6%|140G|okme.xyz, 🇸🇬 新加坡 网飞#185|2.9|7|12%|109G|okme.xyz|80noTls, 🇸🇬 新加坡 网飞#185|2.9|7|12%|109G|okme.xyz, 🇭🇰 香港 网飞#248|1.9|7|6%|145G|okme.xyz|80noTls, 🇭🇰 香港 网飞#248|1.9|7|6%|145G|okme.xyz, 🇭🇰 香港 网飞#70|1|7|7%|78G|okme.xyz|80noTls, 🇭🇰 香港 网飞#70|1|7|7%|78G|okme.xyz, 🇭🇰 香港 网飞#111|1.6|7|7%|119G|okme.xyz|80noTls, 🇭🇰 香港 网飞#111|1.6|7|7%|119G|okme.xyz, 🇯🇵 日本 #181|3.5|7|14%|141G|okme.xyz|80noTls, 🇯🇵 日本 #181|3.5|7|14%|141G|okme.xyz, 🇭🇰 香港 网飞#64|1.5|7|8%|111G|okme.xyz|80noTls, 🇭🇰 香港 网飞#64|1.5|7|8%|111G|okme.xyz, 🇭🇰 香港 网飞#84|1|7|8%|72G|okme.xyz|80noTls, 🇭🇰 香港 网飞#84|1|7|8%|72G|okme.xyz, 🇭🇰 香港 网飞#124|1.2|7|8%|89G|okme.xyz|80noTls, 🇭🇰 香港 网飞#124|1.2|7|8%|89G|okme.xyz, 🇭🇰 香港 网飞#137|1.4|7|8%|103G|okme.xyz|80noTls, 🇭🇰 香港 网飞#137|1.4|7|8%|103G|okme.xyz, 🇸🇬 新加坡 网飞#166|1|7|8%|78G|okme.xyz|80noTls, 🇸🇬 新加坡 网飞#166|1|7|8%|78G|okme.xyz, 🇭🇰 香港 网飞#243|0.9|7|8%|68G|okme.xyz|80noTls, 🇭🇰 香港 网飞#243|0.9|7|8%|68G|okme.xyz, 🇭🇰 香港 网飞#244|1.5|7|8%|114G|okme.xyz|80noTls, 🇭🇰 香港 网飞#244|1.5|7|8%|114G|okme.xyz, 🇭🇰 香港 加速 网飞#48|1.8|7|9%|132G|okme.xyz|80noTls, 🇭🇰 香港 加速 网飞#48|1.8|7|9%|132G|okme.xyz, 🇭🇰 香港 网飞#231|1|7|9%|79G|okme.xyz|80noTls, 🇭🇰 香港 网飞#231|1|7|9%|79G|okme.xyz, 🇸🇬 新加坡 网飞#305|0.8|7|11%|63G|okme.xyz|80noTls, 🇸🇬 新加坡 网飞#305|0.8|7|11%|63G|okme.xyz, 🇭🇰 香港 网飞#71|1.3|7|11%|95G|okme.xyz|80noTls, 🇭🇰 香港 网飞#71|1.3|7|11%|95G|okme.xyz, 🇭🇰 香港 网飞#94|1.1|7|13%|119G|okme.xyz|80noTls, 🇭🇰 香港 网飞#94|1.1|7|13%|119G|okme.xyz, 🇭🇰 香港 网飞#234|1.4|7|14%|105G|okme.xyz|80noTls, 🇭🇰 香港 网飞#234|1.4|7|14%|105G|okme.xyz, 🇭🇰 香港 网飞#204|0.9|7|4%|68G|okme.xyz|80noTls, 🇭🇰 香港 网飞#204|0.9|7|4%|68G|okme.xyz, 🇭🇰 香港 网飞#242|1|7|4%|77G|okme.xyz|80noTls, 🇭🇰 香港 网飞#242|1|7|4%|77G|okme.xyz, 🇭🇰 香港 网飞#136|0.9|7|5%|66G|okme.xyz|80noTls, 🇭🇰 香港 网飞#136|0.9|7|5%|66G|okme.xyz, 🇭🇰 香港 网飞#202|1.6|7|6%|120G|okme.xyz|80noTls, 🇭🇰 香港 网飞#202|1.6|7|6%|120G|okme.xyz, 🇭🇰 香港 网飞#93|0.8|7|7%|88G|okme.xyz|80noTls, 🇭🇰 香港 网飞#93|0.8|7|7%|88G|okme.xyz, 🇺🇸 美国 #360|0.8|7|8%|61G|okme.xyz|80noTls, 🇺🇸 美国 #360|0.8|7|8%|61G|okme.xyz, 🇭🇰 香港 网飞#133|0.9|7|9%|76G|okme.xyz|80noTls, 🇭🇰 香港 网飞#133|0.9|7|9%|76G|okme.xyz, 🇭🇰 香港 网飞#241|1.2|7|9%|90G|okme.xyz|80noTls, 🇭🇰 香港 网飞#241|1.2|7|9%|90G|okme.xyz, 🇸🇬 新加坡 网飞#291|1.6|7|10%|119G|okme.xyz|80noTls, 🇸🇬 新加坡 网飞#291|1.6|7|10%|119G|okme.xyz, 🇭🇰 香港 网飞#118|1.9|7|10%|141G|okme.xyz|80noTls, 🇭🇰 香港 网飞#118|1.9|7|10%|141G|okme.xyz, 🇭🇰 香港 网飞#134|1.3|7|10%|97G|okme.xyz|80noTls, 🇭🇰 香港 网飞#134|1.3|7|10%|97G|okme.xyz, 🇸🇬 新加坡 网飞#172|1.1|7|11%|89G|okme.xyz|80noTls, 🇸🇬 新加坡 网飞#172|1.1|7|11%|89G|okme.xyz, 🇭🇰 香港 网飞#123|1.1|7|12%|82G|okme.xyz|80noTls, 🇭🇰 香港 网飞#123|1.1|7|12%|82G|okme.xyz, 🇭🇰 香港 网飞#128|1.1|7|5%|81G|okme.xyz|80noTls, 🇭🇰 香港 网飞#128|1.1|7|5%|81G|okme.xyz, 🇭🇰 香港 网飞#247|0.9|7|8%|72G|okme.xyz|80noTls, 🇭🇰 香港 网飞#247|0.9|7|8%|72G|okme.xyz, 🇸🇬 新加坡 网飞#179|1|7|11%|74G|okme.xyz|80noTls, 🇸🇬 新加坡 网飞#179|1|7|11%|74G|okme.xyz, 🇯🇵 日本#375|0.4|7|4%|79G|okme.xyz|80noTls, 🇯🇵 日本#375|0.4|7|4%|79G|okme.xyz, 🇭🇰 香港 网飞#127|1|7|7%|72G|okme.xyz|80noTls, 🇭🇰 香港 网飞#127|1|7|7%|72G|okme.xyz, 🇰🇷 韩国#373|0.9|7|4%|64G|okme.xyz|80noTls, 🇰🇷 韩国#373|0.9|7|4%|64G|okme.xyz, 🏳️‍🌈 地区#编号|倍率|等级|在线|流量消耗|网站 节点命名规则#6|1|7|1%|0G|okme.xyz, 🏴‍☠️ 没有节点？请先购买套餐，然后才可以使用呦#7|9|7|1%|0G|okme.xyz, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Vimeo.png
+static=STC SSR, [D1/SSR] 台湾 01, [D1/SSR] 台湾 02, [D1/SSR] 台湾 03, [D1/SSR] 台湾 04, [D1/SSR] 日本 01, [D1/SSR] 日本 02, [D1/SSR] 日本 03, [D1/SSR] 日本 04, [D1/SSR] 狮城 01, [D1/SSR] 狮城 02, [D1/SSR] 狮城 03, [D1/SSR] 狮城 04, [D1/SSR] 美国 01, [D1/SSR] 美国 02, [D1/SSR] 美国 03, [D1/SSR] 美国 04, [D1/SSR] 香港 01, [D1/SSR] 香港 02, [D1/SSR] 香港 03, [D1/SSR] 香港 04, [D1/SSR] 香港 05, [D1/SSR] 香港 06, [D1/SSR] 香港 07, [D1/SSR] 香港 08, [D1/SSR] 香港 09, [D1/SSR] 香港 10, [D1/SSR] 香港 11, [D1/SSR] 香港 12, [D1/SSR] 香港 13, [D1/SSR] 香港 14, [D1/SSR] 香港 15, [D1/SSR] 香港 16, [D1/SSR] 香港 17, [D1/SSR] 香港 18, [D1/SSR] 香港 19, [D1/SSR] 香港 20, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Flamingo.png
+#static=928net, TG:@chat928, 🇭🇰 香港-1, 🇭🇰 香港-2, 🇭🇰 香港-3, 🇭🇰 香港-4, 🇭🇰 香港-5 [0.6], 🇭🇰 香港-6, 🇭🇰 香港-7, 🇭🇰 香港-8, 🇭🇰 香港-9, 🇭🇰 香港-10, 🇺🇸 美国-1, 🇺🇸 美国-2, 🇺🇸 美国-3, 🇺🇸 美国-4, 🇺🇸 美国-5, 🇺🇸 美国-6, 🇯🇵 日本-1, 🇯🇵 日本-2, 🇯🇵 日本-3, 🇯🇵 日本-4, 🇯🇵 日本-5, 🇯🇵 日本-6, 🇯🇵 日本-7, 🇯🇵 日本-8, 🇯🇵 日本-9, 🇯🇵 日本-10, 🇨🇳 台湾-1, 🇨🇳 台湾-2, 🇰🇷 韩国-1, 🇸🇬 新加坡-1, 🇸🇬 新加坡-2, 🇷🇺 俄罗斯, 🇨🇦 加拿大, 🇩🇪 德国, 🇧🇷 巴西, 🇮🇳 印度, 🇮🇹 意大利, 🇦🇺 悉尼, 🇬🇧 英国, 🇳🇱 荷兰, 🇸🇪 瑞典, 🇳🇴 挪威, 🇩🇰 丹麦, 🇮🇪 爱尔兰, 🇪🇸 西班牙, 🇫🇷 法国, 🇦🇪 迪拜, 🇹🇷 土耳其, 🇦🇷 阿根廷, img-url=https://raw.githubusercontent.com/Hard2crossWa11/Zure/master/IconSet/928net_2.png
+
+#static=HongKong NF, 🇭🇰 香港 网飞#40|倍率1.1|等级7|在线25人|707G|v2.freeok.xyz, img-url=https://raw.githubusercontent.com/limbopro/Zure/master/IconSet/Twitter.png
+
+static=台湾, [D1/V2Ray] 台湾 01, [D1/V2Ray] 台湾 02, [D1/V2Ray] 台湾 03, [D1/V2Ray] 台湾 04, img-url=https://raw.githubusercontent.com/jhon186/Qure/master/IconSet/TW.png
+
+static=美国, [D1/V2Ray] 美国 01, [D1/V2Ray] 美国 02, [D1/SSR] 美国 01, [D1/SSR] 美国 02, [D1/SSR] 美国 03, [D1/SSR] 美国 04, img-url=https://raw.githubusercontent.com/jhon186/Qure/master/IconSet/United_Kingdom.png
+
+#static=开车, 🇮🇳 印度, 🇹🇷 土耳其, 🇦🇷 阿根廷, 🇮🇹 意大利, img-url=https://raw.githubusercontent.com/jhon186/Qure/master/IconSet/Want_Want.png
+
+#static=OneDrive, direct, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/OneDrive.png
+
+static=香港, [D1/SSR] 香港 01, [D1/SSR] 香港 02, [D1/SSR] 香港 03, [D1/SSR] 香港 04, [D1/SSR] 香港 05, [D1/SSR] 香港 06, [D1/SSR] 香港 07, [D1/SSR] 香港 08, [D1/SSR] 香港 09, [D1/SSR] 香港 10, [D1/SSR] 香港 11, [D1/SSR] 香港 12, [D1/SSR] 香港 13, [D1/SSR] 香港 14, [D1/SSR] 香港 15, [D1/SSR] 香港 16, [D1/SSR] 香港 17, [D1/SSR] 香港 18, [D1/SSR] 香港 19, img-url=https://raw.githubusercontent.com/jhon186/Qure/master/IconSet/Hong_Kong.png
+available=日本, [D1/V2Ray] 日本 01, [D1/V2Ray] 日本 02, [D1/SSR] 日本 01, [D1/SSR] 日本 02, [D1/SSR] 日本 03, [D1/SSR] 日本 04, img-url=https://raw.githubusercontent.com/jhon186/Qure/master/IconSet/Japan.png
+static=新加坡, [D1/SSR] 狮城 01, [D1/SSR] 狮城 02, [D1/SSR] 狮城 03, [D1/SSR] 狮城 04, img-url=https://raw.githubusercontent.com/jhon186/Qure/master/IconSet/Singapore.png
+
+static=韩国, direct, img-url=https://raw.githubusercontent.com/jhon186/Qure/master/IconSet/KR.png
+
+available=健康检测, [D1/SSR] 狮城 01, [D1/SSR] 狮城 02, [D1/SSR] 狮城 03, [D1/SSR] 狮城 04, img-url=https://raw.githubusercontent.com/limbopro/Zure/master/IconSet/Available.png
+
+round-robin=负载均衡, [D1/V2Ray] 美国 01, [D1/V2Ray] 美国 02, [D1/SSR] 美国 03, [D1/SSR] 美国 04, img-url=https://raw.githubusercontent.com/limbopro/Zure/master/IconSet/Round_Robin.png
+
+static=机场专线, direct, img-url=https://raw.githubusercontent.com/limbopro/Zure/master/IconSet/rocket.png
+# 机场专线下域名为大部分机场域名，分流预设置为走PROXY，本设置是为了减少机场域名被墙而导致无法访问；
+
+static=CN, direct, img-url=https://raw.githubusercontent.com/limbopro/Zure/master/IconSet/China-map.png
+
+static=苹果服务, direct, proxy, img-url= https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Apple.png
+
+#static=Instagram, 928net, IPLC, 布丁, 负载均衡, STC SSR, img-url=https://raw.githubusercontent.com/limbopro/Zure/master/IconSet/Instagram-little.png
+
+static=Disney+, 美国, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Disney%2B.png
+
+static=TIDAL, direct, 美国, STC SSR, 追风岛, STC-V2Ray, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/TIDAL.png
+
+static=Bahamut, 台湾, direct, img-url=https://raw.githubusercontent.com/limbopro/Zure/master/IconSet/gamer-1.png
+
+;static=Twitter, PROXY, 健康检测, img-url=https://raw.githubusercontent.com/limbopro/Zure/master/IconSet/Twitter.png
+# available 为健康检查模式，round-robin 为负载均衡模式，static 为静态策略模式，可以通过把 available 改为 static 的方式切换至静态策略模式，其他同理；
+
+static=Pornhub, 日本, 美国, direct, 香港, 追风岛, STC-V2Ray, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Pornhub.png
+
+static=BiliBili, direct, 台湾, 香港, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/bilibili.png
+
+static=Google, STC SSR, 追风岛, img-url=https://raw.githubusercontent.com/limbopro/Zure/master/IconSet/Google.png
+
+static=HBO, 美国, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/HBO.png
+
+static=Youtube, STC SSR, STC-V2Ray, 追风岛,    img-url=https://raw.githubusercontent.com/limbopro/Zure/master/IconSet/YouTube_Letter.png
+
+static=Spotify, 美国, direct, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Spotify.png
+
+static=Telegram, 新加坡, 负载均衡, STC SSR, 健康检测, 追风岛, 香港, STC-V2Ray, img-url=https://raw.githubusercontent.com/limbopro/Zure/master/IconSet/Telegram.png
+
+static=Netflix, 香港, STC SSR, STC-V2Ray, 追风岛, 台湾, img-url=https://raw.githubusercontent.com/limbopro/Zure/master/IconSet/Netflix_Letter.png
+
+;static=policy-name-1, Sample-A, Sample-B, Sample-C, img-url=http://example.com/icon.png
+;available=policy-name-2, Sample-A, Sample-B, Sample-C
+;round-robin=policy-name-3, Sample-A, Sample-B, Sample-C
+;ssid=policy-name-4, Sample-A, Sample-B, LINK_22E171:Sample-B, LINK_22E172:Sample-C
+
+#
+# Params “tag” and “enabled” are optional.
+# The default sync interval for all kinds of remote resources is 24*60*60 seconds.
+#
+
+[server_remote]
+https://stc-spadesdns.com/link/xIrcI4S3Iixt0BI9?quantumultx=2, tag=STC-SPADES-V2Ray🤖️, enabled=true
+https://sub.91zfdao.com/link/KfdaN1QWwGgMGMcP?quantumultx=1, tag=追风岛🍃, enabled=true
+https://stc-spadesdns.com/link/xIrcI4S3Iixt0BI9?sub=1, tag=STC-SPADES-SSR🤖️, enabled=true
+
+[filter_remote]
+https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/AdRule.list, tag=野比/去广告, force-policy=reject, enabled=true
+
+https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/AdRuleTest.list, tag=野比/去广告（测试版）, force-policy=reject, enabled=false
+##野比去广告规则 进入分流订阅界面可右滑禁用
+
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/Unbreak.list, tag=神机/去欺诈（默认禁用）, enabled=false
+
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/Advertising.list, tag=神机/去广告（默认禁用）, enabled=false
+
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/Hijacking.list, tag=神机/反劫持（默认禁用）, enabled=false
+https://raw.githubusercontent.com/GeQ1an/Rules/master/QuantumultX/Filter/Netease%20Music.list, tag=网易云解锁, force-policy=direct, enabled=false
+
+##新增神机去广告规则 21.10.2019 进入分流订阅界面可右滑启用
+
+
+https://raw.githubusercontent.com/limbopro/Profiles/master/limbopro/QuantumultX.list, tag=机场专线（80+主流机场）, force-policy=机场专线, enabled=true
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/Media/Bahamut.list, tag=巴姆雷特（动画疯）, force-policy=Bahamut, enabled=true
+
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/Media/Pornhub.list, tag=Pornhub, force-policy=Pornhub, enabled=true
+
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/Media/YouTube.list, tag=Youtube, force-policy=Youtube, enabled=true
+
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/Google.list, tag=Google, force-policy=Google, enabled=true
+
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/Media/Netflix.list, tag=Netflix, force-policy=Netflix, enabled=true
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/Telegram.list, tag=Telegram, force-policy=Telegram, enabled=true
+
+
+
+
+
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/Media/Spotify.list, tag=Spotify, force-policy=Spotify, enabled=true
+
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/Media/HBO.list, tag=HBO, force-policy=HBO, enabled=true
+https://raw.githubusercontent.com/ConnersHua/Profiles/master/Quantumult/X/Filter/Media/TIDAL.list, tag=Tidal, force-policy=TIDAL, enabled=false
+
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/Media/Hulu.list, tag=Hulu, force-policy=Proxy, enabled=true
+https://raw.githubusercontent.com/DivineEngine/Profiles/master/Quantumult/Filter/StreamingMedia/Video/DisneyPlus.list, tag=Disney, force-policy=Disney+, enabled=true
+
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/Media/Amazon.list, tag=Amazon, force-policy=proxy, enabled=true
+
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/Media/Pandora.list, tag=Pandora, force-policy=Proxy, enabled=true
+
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/Media/Twitch.list, tag=Twitch, force-policy=Proxy, enabled=true
+
+https://raw.githubusercontent.com/DivineEngine/Profiles/master/Quantumult/Filter/Extra/Apple/Apple.list, tag=Apple服务, force-policy=苹果服务, enabled=true
+
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/Media/ViuTV.list, tag=ViuTV, force-policy=Proxy, enabled=true
+
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/Media/BBC_iPlayer.list, tag=BBC_iPlayer, force-policy=Proxy, enabled=true
+
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/Speedtest.list, tag=Speedtest（测速，默认禁用）, force-policy=Speedtest, enabled=false
+
+https://raw.githubusercontent.com/limbopro/Profiles/master/Quantumult/X/Filter/BacktoCN.list, tag=CN（回国，默认禁用）, force-policy=PROXY, enabled=false
+
+;https://raw.githubusercontent.com/crossutility/Quantumult-X/master/filter.txt, tag=Sample, force-policy=your-policy-name, enabled=true
+
+#
+# Params “tag” and “enabled” are optional.
+#
+[rewrite_remote]
+https://raw.githubusercontent.com/jhon186/Script/master/QuantumultX/Js.conf, tag=1, enabled=true
+;https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/Js.conf, tag=NobyDa（Rewrite/解锁脚本）, enabled=true
+
+https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/Rewrite_lhie1.conf, tag=Line1（Rewrite去广告/默认禁用）, enabled=false
+
+##野比去广告Rewrite
+
+;https://raw.githubusercontent.com/crossutility/Quantumult-X/master/sample-import-rewrite.txt, tag=Sample, enabled=true
+#
+# Only obfs=http, obfs=ws, obfs=wss can have optional “obfs-uri” field.
+# When using obfs=ws and obfs=wss the server side can be deployed by v2ray-plugin with mux = 0 or by v2ray-core.
+#
+[server_local]
+
+
+
+# 配置本地节点
+;shadowsocks=ss-a.example.com:80, method=chacha20, password=pwd, obfs=http, obfs-host=bing.com, obfs-uri=/resource/file, fast-open=false, udp-relay=false, server_check_url=http://www.apple.com/generate_204, tag=Sample-A
+;shadowsocks=ss-b.example.com:80, method=chacha20, password=pwd, obfs=http, obfs-host=bing.com, obfs-uri=/resource/file, fast-open=false, udp-relay=false, tag=Sample-B
+;shadowsocks=ss-c.example.com:443, method=chacha20, password=pwd, obfs=tls, obfs-host=bing.com, fast-open=false, udp-relay=false, tag=Sample-C
+;shadowsocks=ssr-a.example.com:443, method=chacha20, password=pwd, ssr-protocol=auth_chain_b, ssr-protocol-param=def, obfs=tls1.2_ticket_fastauth, obfs-host=bing.com, tag=Sample-D
+;shadowsocks=ws-a.example.com:80, method=aes-128-gcm, password=pwd, obfs=ws, obfs-uri=/ws, fast-open=false, udp-relay=false, tag=Sample-E
+;shadowsocks=ws-b.example.com:80, method=aes-128-gcm, password=pwd, obfs=ws, fast-open=false, udp-relay=false, tag=Sample-F
+;shadowsocks=ws-tls-a.example.com:443, method=aes-128-gcm, password=pwd, obfs=wss, obfs-uri=/ws, fast-open=false, udp-relay=false, tag=Sample-G
+
+
+[filter_local]
+host-keyword, wikimedia, STC-V2Ray
+host-keyword, wikipedia, STC-V2Ray
+host-keyword, standardintbank, direct
+host-keyword, abema, 日本
+host-keyword, paypal, proxy
+host-suffix, www.51shucheng.net, direct
+host-keyword, pornodam1.org, 美国
+host-keyword, tidal, TIDAL
+host-keyword, ixincun, direct
+host-keyword, chanshike, direct
+host-keyword, ankiweb, 追风岛
+host-keyword, bilibili, BiliBili
+host-keyword, tinyurl, proxy
+host-keyword, limbopro, proxy
+host-suffix, interface.91porn.tips:8080, CN
+geoip, cn, direct
+;user-agent, ?abc*, proxy
+;host, www.google.com, proxy
+;host-keyword, adsite, reject
+;host-suffix, googleapis.com, proxy
+ip-cidr, 10.0.0.0/8, direct
+ip-cidr, 127.0.0.0/8, direct
+ip-cidr, 172.16.0.0/12, direct
+ip-cidr, 192.168.0.0/16, direct
+ip-cidr, 224.0.0.0/24, direct
+final, proxy
+
+#
+# The “reject” returns HTTP status code 404 with no content.
+# The “reject-200” returns HTTP status code 200 with no content.
+# The “reject-img” returns HTTP status code 200 with content of 1px gif.
+# The “reject-dict” returns HTTP status code 200 with content of empty json object.
+# The “reject-array” returns HTTP status code 200 with content of empty json array.
+# The “request-header” works for all the http headers not just one single header, so you can match two or more headers including CRLF in one regular expression.
+# The length and encoding related HTTP header fields will be automatically processed by Quantumult if the “rewrite” is body related, so you should not handle them by yourself. The max supported response size is 256kB(decompressed) for response-body and script-response-body.
+# When using javascript in rewrite, you can use those objects: $request, $response, $notify(title, subtitle, message), console.log(message) and Quantumult’s built-in objects all have prefix “$”.
+# Supports: $request.scheme, $request.method, $request.url, $request.path, $request.headers, $response.statusCode, $response.headers, $response.body
+# The $notify(title, subtitle, message) will post iOS notifications if Quantumult notification has been enabled.
+# The console.log(message)  will output logs to Quantumult log file if the log level is “debug”.
+#
+[rewrite_local]
+^https:\/\/(raw.githubusercontent|\w+\.github)\.(com|io)\/.*\.js$ url script-response-body NobyDa/unblockremote.js
+
+# 抖音去水印
+#(.*video_id=\w{32})(.*watermark=)(.*) url 302 $1
+#(?<=(carrier|account|sys)_region=)CN url 307 CN
+#(?<=version_code=)\d{1,}.\d{1}\.\d{1} url 307 13.4.0
+
+# 酷我音乐SVIP (By yxiaocai)
+^https?:\/\/vip1\.kuwo\.cn\/(vip\/v2\/user\/vip|vip\/spi/mservice) url script-response-body NobyDa/Surge/JS/Kuwo.js
+
+# 彩云天气 Vip
+^https:\/\/biz\.caiyunapp\.com\/v2\/user\?app_name\=weather url script-response-body      NobyDa/QuantumultX/File/ColorWeather.js
+
+# 滴答清单 pro
+#^https:\/\/(ticktick|dida365)\.com\/api\/v2\/user\/status url script-response-body    NobyDa/QuantumultX/File/DiDaQingDan.js
+
+
+# 大千视界
+^https:\/\/api\.mvmtv\.com\/index\.php.*(c=user.*a=info|a=addr.*vid=.*) url script-response-body NobyDa/Surge/JS/dqsj.js
+
+# 知音漫客VIP (By mieqq)
+^https://getuserinfo-globalapi.zymk.cn/app_api/v5/(getuserinfo|coin_account|getuserinfo_ticket|getcomicinfo)/ url script-response-body NobyDa/QuantumultX/File/Zymh.js
+
+# 网易蜗牛读书VIP (By yxiaocai and JO2EY)
+^https?://p\.du\.163\.com/readtime/info.json url reject
+^https?:\/\/p\.du\.163\.com\/gain\/readtime\/info\.json url script-response-body NobyDa/QuantumultX/File/wnyd.js
+
+# 香蕉视频VIP (By Meeta)
+^https?:\/\/(apple|ios)\.fuliapps\.com url script-response-body NobyDa/QuantumultX/File/xjsp.js
+
+#91 
+^https?:\/\/.+\.(my10api|(.*91.*))\.(com|tips|app|xyz)(:\d{2,5})?\/api.php$ url script-response-body NobyDa/QuantumultX/File/91.js
+
+# 优乐美, 小米粒, 彩色直播三合一 解锁收费房
+^https?:\/\/(.+)\.(\w{2,3})(:?\d*)\/(api\/public\/\?service=Live\.checkLive$|public\/\/\?service=Live\.roomCharge$|lg\/video\/loadVideoFees\.do$) url script-response-body NobyDa/Surge/JS/zhibo.js
+
+# 扫描全能王 pro
+^https:\/\/(api|api-cs)\.intsig\.net\/purchase\/cs\/query_property\? url script-response-body NobyDa/Surge/JS/CamScanner.js
+
+
+[mitm]
+passphrase = A6FEEC9D
+p12 = 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
+;passphrase =
+;p12 =
+;skip_validating_cert = false
+;force_sni_domain_name = false
+hostname = raw.githubusercontent.com, *.github.io , vsco.co, *.my10api.com, *googlevideo.com, api.termius.com, api*.tiktokv.com, api*.musical.ly, api*.amemv.com, *.tiktokcdn.com, aweme*.snssdk.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, mp.weixin.qq.com, api.bilibili.com, app.bilibili.com, *.zhihu.com, aweme*.snssdk.com, *.kuwo.cn, ios.xiaoxiaoapps.com, mjappaz.yefu365.com, p.du.163.com, getuserinfo.321mh.com, getuserinfo-globalapi.zymk.cn, api-163.biliapi.net, ios.fuliapps.com, vsco.co, api.vnision.com, *.my10api.com, bd.4008109966.net, sp.kaola.com, r.inews.qq.com, apple.fuliapps.com, newdrugs.dxy.cn, bdapp.4008109966.net, app101.avictown.cc, api.hlo.xyz, api.ijo.xyz, www.luqijianggushi.com, account.wps.cn, u.kanghuayun.com, api.gyrosco.pe, api1.dobenge.cn, api.mvmtv.com, mitaoapp.yeduapp.com, origin-prod-phoenix.jibjab.com, www.3ivf.com, pay.guoing.com, p.doras.api.vcinema.cn, api.termius.com, mjappaz.yefu365.com, viva.v21xy.com,  biz.caiyunapp.com, raw.githubusercontent.com, *.github.io
+
